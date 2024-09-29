@@ -1,4 +1,4 @@
-# Sliding Image Game
+# NFT-Royale by 404 ERROR NOT FOUND
 
 A competitive sliding puzzle game where two players race to solve an image puzzle. The winner gets to mint the image as an NFT and receives 100 tokens on the NEO X blockchain.
 
