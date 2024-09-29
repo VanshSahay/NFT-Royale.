@@ -47,7 +47,7 @@ const ParallaxLayer = ({
     );
 };
 
-const Card = ({ className, children }) => (
+const Card = ({ className, children }: any) => (
     <div
         className={`bg-purple-900 bg-opacity-30 backdrop-blur-md rounded-xl shadow-2xl ${className}`}
     >
@@ -55,18 +55,18 @@ const Card = ({ className, children }) => (
     </div>
 );
 
-const CardHeader = ({ children }) => <div className="p-6">{children}</div>;
+const CardHeader = ({ children }: any) => <div className="p-6">{children}</div>;
 
-const CardContent = ({ children }) => (
+const CardContent = ({ children }: any) => (
     <div className="px-6 py-4">{children}</div>
 );
 
-const CardFooter = ({ children }) => (
+const CardFooter = ({ children }: any) => (
     <div className="px-6 py-4">{children}</div>
 );
 
 // Simplified Button component
-const Button = ({ onClick, className, children }) => (
+const Button = ({ onClick, className, children }: any) => (
     <button
         onClick={onClick}
         className={`bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-8 rounded-full transition-colors ${className}`}
@@ -76,7 +76,7 @@ const Button = ({ onClick, className, children }) => (
 );
 
 // Simplified Input component
-const Input = ({ type, placeholder, value, onChange, className }) => (
+const Input = ({ type, placeholder, value, onChange, className }: any) => (
     <input
         type={type}
         placeholder={placeholder}
@@ -128,7 +128,7 @@ export default function CoolPuzzle() {
             setPlayerNumber(playerNumber);
         });
 
-        socket.on("gametoast", (arg) => {
+        socket.on("gameAlert", (arg) => {
             setIsStarted(true);
             toast(arg);
         });
@@ -301,7 +301,9 @@ export default function CoolPuzzle() {
                                 type="text"
                                 placeholder="Enter your username"
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e: any) =>
+                                    setUsername(e.target.value)
+                                }
                                 className={``}
                             />
                         </div>
