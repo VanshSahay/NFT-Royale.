@@ -72,7 +72,7 @@ io.on("connection", (socket) => {
                 "gameOver",
                 "Game Over!"
             );
-        }, 5000);
+        }, 60000);
         console.log("SUB ARRRRR: ", players[socketRoomNumber]);
     });
 });

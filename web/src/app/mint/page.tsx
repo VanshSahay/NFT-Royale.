@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -126,63 +126,69 @@ export default function Component({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [writeStatus]);
 
-    const handleImageError = () => {
-        setImageError(true);
-        console.error("Failed to load image:", imageUrl);
-    };
+    const bgRef = useRef(null);
+    const titleRef = useRef(null);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-purple-500 opacity-10 blur-3xl"></div>
-            <ConnectButton />
-            <Card className="w-full max-w-md bg-gray-800/50 shadow-xl backdrop-blur-sm border border-gray-700">
-                <CardHeader>
-                    <CardTitle className="text-center text-gray-100">
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
+        <div className="min-h-screen bg-black text-white overflow-hidden relative">
+            <div
+                ref={bgRef}
+                className="fixed inset-0 bg-gradient-to-b from-purple-900 via-blue-900 to-black opacity-50 z-0"
+            ></div>
+            <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
+                <Card className="w-full max-w-lg bg-purple-900 bg-opacity-30 backdrop-blur-md rounded-xl shadow-2xl">
+                    <CardHeader>
+                        <h1
+                            ref={titleRef}
+                            className="text-4xl font-bold text-center text-blue-300"
                         >
                             Congratulations!
-                        </motion.div>
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col items-center space-y-4">
-                    <p className="text-center text-gray-300">
-                        You've won an exclusive NFT!
-                    </p>
-                    <div className="w-64 h-64 rounded-lg overflow-hidden shadow-lg bg-gray-700 flex items-center justify-center">
-                        {imageError ? (
-                            <p className="text-gray-400 text-center">
-                                Failed to load NFT image
-                            </p>
-                        ) : (
-                            <Image
-                                src={imageUrl}
-                                alt="Your NFT"
-                                width={256}
-                                height={256}
-                                className="w-full h-full object-cover"
-                                onError={handleImageError}
-                                unoptimized // Disable Next.js image optimization for external URLs
-                            />
-                        )}
-                    </div>
-                </CardContent>
-                <CardFooter className="flex justify-center m-5">
-                    <Button
-                        onClick={handleMint}
-                        disabled={isMinting || isMinted}
-                        className="w-full max-w-xs bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isMinting
-                            ? "Minting..."
-                            : isMinted
-                              ? "NFT Minted!"
-                              : "Mint Your NFT"}
-                    </Button>
-                </CardFooter>
-            </Card>
+                        </h1>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <p className="text-xl text-center text-blue-200">
+                            You've won the puzzle and earned an exclusive NFT!
+                        </p>
+                        <div className="relative flex flex-col items-center justify-center">
+                            <div className="mt-3 mb-7">
+                                <ConnectButton />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 via-blue-500 to-purple-600 rounded-lg filter blur-3xl opacity-30"></div>
+                            <motion.div
+                                className="w-48 h-48 bg-gradient-to-br from-purple-500 via-blue-600 to-purple-700 rounded-lg shadow-lg overflow-hidden"
+                                animate={{
+                                    scale: [1, 1.05, 1],
+                                    rotate: [0, 5, -5, 0],
+                                }}
+                                transition={{
+                                    duration: 5,
+                                    repeat: Infinity,
+                                    repeatType: "reverse",
+                                }}
+                            >
+                                <div className="w-full h-full flex items-center justify-center">
+                                    {/* Empty space for NFT */}
+                                    <div className="w-40 h-40 rounded-lg border-2 border-dashed border-white/50 flex items-center justify-center">
+                                        <img src={imageUrl} alt="dsa" />
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                        <p className="text-lg text-center mx-2 text-blue-200">
+                            Your NFT represents your victory in NFT Royale. It's
+                            a unique digital asset that you can keep or trade.
+                        </p>
+                    </CardContent>
+                    <CardFooter className="flex justify-center">
+                        <Button
+                            onClick={handleMint}
+                            className="bg-purple-600 m-5 hover:bg-purple-500 text-white font-semibold py-3 px-8 rounded-full transition-colors"
+                        >
+                            Claim Your NFT
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </div>
         </div>
     );
 }

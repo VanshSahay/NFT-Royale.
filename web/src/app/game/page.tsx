@@ -6,6 +6,7 @@ import { useSpring, animated } from "react-spring";
 import { socket } from "../../socket";
 import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 
 const GRID_SIZE = 3;
 const TILE_COUNT = GRID_SIZE * GRID_SIZE;
@@ -45,6 +46,45 @@ const ParallaxLayer = ({
         </div>
     );
 };
+
+const Card = ({ className, children }) => (
+    <div
+        className={`bg-purple-900 bg-opacity-30 backdrop-blur-md rounded-xl shadow-2xl ${className}`}
+    >
+        {children}
+    </div>
+);
+
+const CardHeader = ({ children }) => <div className="p-6">{children}</div>;
+
+const CardContent = ({ children }) => (
+    <div className="px-6 py-4">{children}</div>
+);
+
+const CardFooter = ({ children }) => (
+    <div className="px-6 py-4">{children}</div>
+);
+
+// Simplified Button component
+const Button = ({ onClick, className, children }) => (
+    <button
+        onClick={onClick}
+        className={`bg-purple-600 hover:bg-purple-500 text-white font-semibold py-3 px-8 rounded-full transition-colors ${className}`}
+    >
+        {children}
+    </button>
+);
+
+// Simplified Input component
+const Input = ({ type, placeholder, value, onChange, className }) => (
+    <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className={`w-full bg-purple-800 bg-opacity-50 text-blue-200 placeholder-blue-400 border-blue-400 rounded-md py-2 px-4 ${className}`}
+    />
+);
 
 export default function CoolPuzzle() {
     const [tiles, setTiles] = useState(
@@ -88,20 +128,20 @@ export default function CoolPuzzle() {
             setPlayerNumber(playerNumber);
         });
 
-        socket.on("gameAlert", (arg) => {
+        socket.on("gametoast", (arg) => {
             setIsStarted(true);
-            alert(arg);
+            toast(arg);
         });
 
         socket.on("gameOver", (arg) => {
-            alert(arg);
+            toast(arg);
             router.push("/");
         });
 
         socket.on("connect", onConnect);
         socket.on("disconnect", onDisconnect);
         socket.on("create-room", (value) => {
-            alert(value);
+            toast(value);
         });
         return () => {
             socket.off("connect", onConnect);
@@ -219,23 +259,70 @@ export default function CoolPuzzle() {
                  rgba(30, 58, 138, 0.1) 100%)`,
     };
 
+    const bgRef = useRef(null);
+    const titleRef = useRef(null);
+    const [username, setUsername] = useState("");
+
     return !isStarted ? (
-        <>
-            {playerNumber}
-            <br />
-            <br />
-            <button
-                onClick={() => {
-                    if (playerNumber === "player2") {
-                        socket.emit("startGame", socket.id);
-                    } else {
-                        alert("Wait for another person to Join!");
-                    }
-                }}
-            >
-                Start Game
-            </button>
-        </>
+        // <>
+        //     {playerNumber}
+        //     <br />
+        //     <br />
+        //     <button
+        //         onClick={() => {
+        //             if (playerNumber === "player2") {
+        //                 socket.emit("startGame", socket.id);
+        //             } else {
+        //                 toast("Wait for another person to Join!");
+        //             }
+        //         }}
+        //     >
+        //         Start Game
+        //     </button>
+        // </>
+        <div className="min-h-screen bg-black text-white overflow-hidden relative">
+            <div
+                ref={bgRef}
+                className="fixed inset-0 bg-gradient-to-b from-purple-900 via-blue-900 to-black opacity-50 z-0"
+            ></div>
+            <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
+                <Card className="w-96">
+                    <CardHeader>
+                        <h1
+                            ref={titleRef}
+                            className="text-3xl font-bold text-center text-blue-300"
+                        >
+                            NFT Royale
+                        </h1>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-6">
+                            <Input
+                                type="text"
+                                placeholder="Enter your username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className={``}
+                            />
+                        </div>
+                    </CardContent>
+                    <CardFooter>
+                        <Button
+                            onClick={() => {
+                                if (playerNumber === "player2") {
+                                    socket.emit("startGame", socket.id);
+                                } else {
+                                    toast("Wait for another person to Join!");
+                                }
+                            }}
+                            className="w-full"
+                        >
+                            Join Game
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        </div>
     ) : (
         <div
             ref={containerRef}
