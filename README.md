@@ -58,4 +58,4 @@ A competitive sliding puzzle game where two players race to solve an image puzzl
 
 Vansh Sahay - vansh.sahay1234@gmail.com
 
-Project Link: [https://github.com/VanshSahay/NFT-Royale.](https://github.com/VanshSahay/NFT-Royale.)
+Project Link: [http://ec2-34-227-52-163.compute-1.amazonaws.com/](http://ec2-34-227-52-163.compute-1.amazonaws.com/)
