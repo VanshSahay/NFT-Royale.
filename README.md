@@ -12,9 +12,11 @@ A competitive sliding puzzle game where two players race to solve an image puzzl
 ## Technology Stack
 
 -   Frontend: Next.js
+-   Backend: Wagmi, Viem
 -   Real-time Communication: WebSockets (Socket.io)
 -   Animations: Framer Motion, GSAP
 -   Blockchain: NEO X
+-   Smart Contracts : Solidity
 -   Cloud Infrastructure: AWS
 
 ## Installation
