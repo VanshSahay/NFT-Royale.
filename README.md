@@ -35,6 +35,9 @@ A competitive sliding puzzle game where two players race to solve an image puzzl
 
 3. Install dependencies:
     ```
+    cd ./web
+    npm install
+    cd ../wss
     npm install
     ```
 
@@ -43,6 +46,9 @@ A competitive sliding puzzle game where two players race to solve an image puzzl
 1. Start the development server:
 
     ```
+    cd ./web
+    npm run dev
+    cd ../wss
     npm run dev
     ```
 
